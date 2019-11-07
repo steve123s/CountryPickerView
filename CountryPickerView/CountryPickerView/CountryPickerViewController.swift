@@ -163,7 +163,7 @@ extension CountryPickerViewController {
         
         let imageView: UIImageView = UIImageView(frame:CGRect(x: 0, y: 0, width: 10, height: 8))
         let bundle = Bundle(for: CountryPickerViewController.self)
-        let image = UIImage(named: "tick", in: bundle, compatibleWith: nil)
+        let image = UIImage(named: "CountryPickerView.bundle/tick", in: bundle, compatibleWith: nil)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         
@@ -351,7 +351,7 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     var closeButtonNavigationItem: UIBarButtonItem {
         guard let button = view.dataSource?.closeButtonNavigationItem(in: view) else {
             let bundle = Bundle(for: CountryPickerViewController.self)
-            let image = UIImage(named: "close", in: bundle, compatibleWith: nil)
+            let image = UIImage(named: "CountryPickerView.bundle/close", in: bundle, compatibleWith: nil)
             let barImage = UIBarButtonItem(image: image, style: .done, target: nil, action: nil)
             barImage.tintColor = .black
             
