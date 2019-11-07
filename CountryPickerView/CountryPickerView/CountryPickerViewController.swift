@@ -37,6 +37,7 @@ public class CountryPickerViewController: UITableViewController {
         prepareTableItems()
         prepareNavItem()
         prepareSearchBar()
+        
     }
    
 }
@@ -72,6 +73,9 @@ extension CountryPickerViewController {
         tableView.sectionIndexTrackingBackgroundColor = .clear
         tableView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         tableView.tableHeaderView?.backgroundColor = .white
+        tableView.sectionIndexColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+        tableView.contentInsetAdjustmentBehavior = .never
+        edgesForExtendedLayout = []
     }
     
     func prepareNavItem() {
@@ -79,6 +83,7 @@ extension CountryPickerViewController {
 
         // Add a close button if this is the root view controller
         if navigationController?.viewControllers.count == 1 {
+            
             let closeButton = dataSource.closeButtonNavigationItem
             closeButton.target = self
             closeButton.action = #selector(close)
@@ -155,8 +160,20 @@ extension CountryPickerViewController {
         if let color = dataSource.cellLabelColor {
             cell.textLabel?.textColor = color
         }
-        cell.accessoryType = country == countryPickerView.selectedCountry &&
-            dataSource.showCheckmarkInList ? .checkmark : .none
+        
+        let imageView: UIImageView = UIImageView(frame:CGRect(x: 0, y: 0, width: 10, height: 8))
+        let bundle = Bundle(for: CountryPickerViewController.self)
+        let image = UIImage(named: "tick", in: bundle, compatibleWith: nil)
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
+        
+        if country == countryPickerView.selectedCountry &&
+            dataSource.showCheckmarkInList {
+            cell.accessoryView = imageView
+        } else {
+            cell.accessoryType = .none
+        }
+        
         cell.separatorInset = .zero
         return cell
     }
@@ -333,7 +350,13 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var closeButtonNavigationItem: UIBarButtonItem {
         guard let button = view.dataSource?.closeButtonNavigationItem(in: view) else {
-            return UIBarButtonItem(title: "Close", style: .done, target: nil, action: nil)
+            let bundle = Bundle(for: CountryPickerViewController.self)
+            let image = UIImage(named: "close", in: bundle, compatibleWith: nil)
+            let barImage = UIBarButtonItem(image: image, style: .done, target: nil, action: nil)
+            barImage.tintColor = .black
+            
+            return barImage
+            //return UIBarButtonItem(title: "Close", style: .done, target: nil, action: nil)
         }
         return button
     }

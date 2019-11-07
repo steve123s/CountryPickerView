@@ -107,7 +107,7 @@ public class CountryPickerView: NibView {
         countryDetailsLabel.font = font
         countryDetailsLabel.textColor = textColor
         if showPhoneCodeInView && showCountryCodeInView {
-            countryDetailsLabel.text = "(\(selectedCountry.code)) \(selectedCountry.phoneCode)"
+            countryDetailsLabel.text = "(\(selectedCountry.phoneCode)"
             return
         }
         
@@ -144,6 +144,11 @@ public class CountryPickerView: NibView {
             }
         } else {
             let navigationVC = UINavigationController(rootViewController: countryVc)
+            
+            navigationVC.navigationBar.prefersLargeTitles = true
+            navigationVC.navigationItem.largeTitleDisplayMode = .always
+            navigationVC.navigationBar.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            
             delegate?.countryPickerView(self, willShow: countryVc)
             viewController.present(navigationVC, animated: true) {
                 self.delegate?.countryPickerView(self, didShow: countryVc)
