@@ -10,9 +10,10 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/kizitonwose/CountryPickerView.git", :tag => spec.version }
   spec.source_files  = "CountryPickerView/**/*.{swift}"
   spec.resource_bundles = {
-    'CountryPickerView' => ['CountryPickerView/Assets/CountryPickerView.bundle/*',
-    'CountryPickerView/**/*.{xib}']
+    'CountryPickerView' => ['CountryPickerView/**/Assets/CountryPickerView.bundle/*',
+    'CountryPickerView/**/*.{xib}, CountryPickerView/*.{png}']
   }
+
   spec.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
 
 end
