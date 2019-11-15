@@ -132,6 +132,7 @@ extension CountryPickerViewController {
         let preferredTitle = dataSource.preferredSearchBarTitle
         searchController?.searchBar.placeholder = preferredTitle
         
+        tableView.bounces = false
         //searchController?.searchBar.setImage(UIImage(named: "search"), for: UISearchBar.Icon.search, state: .normal)
         if #available(iOS 12.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
@@ -257,6 +258,9 @@ extension CountryPickerViewController {
                     header.backgroundView?.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
                 }
             }
+        }
+        if let headerView = view as? UITableViewHeaderFooterView {
+            headerView.textLabel?.text? = headerView.textLabel?.text?.capitalized ?? ""
         }
     }
     
