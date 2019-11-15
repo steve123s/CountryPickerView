@@ -71,15 +71,41 @@ extension CountryPickerViewController {
         
         tableView.sectionIndexBackgroundColor = .clear
         tableView.sectionIndexTrackingBackgroundColor = .clear
-        tableView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        tableView.tableHeaderView?.backgroundColor = .white
-        tableView.sectionIndexColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+        
         tableView.contentInsetAdjustmentBehavior = .never
         edgesForExtendedLayout = []
     }
     
     func prepareNavItem() {
         navigationItem.title = dataSource.navigationTitle
+        
+        if #available(iOS 12.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                if #available(iOS 13.0, *) {
+                   
+                    UINavigationBar.appearance().barTintColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                    navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                    navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                    navigationController?.navigationBar.compactAppearance?.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                }
+                tableView.backgroundView?.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                navigationController?.navigationBar.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                navigationController?.navigationBar.barTintColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                view.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+            } else {
+                if #available(iOS 13.0, *) {
+                    
+                    UINavigationBar.appearance().barTintColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                    navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                    navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                    navigationController?.navigationBar.compactAppearance?.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                }
+                tableView.backgroundView?.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                navigationController?.navigationBar.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                navigationController?.navigationBar.barTintColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                view.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            }
+        }
 
         // Add a close button if this is the root view controller
         if navigationController?.viewControllers.count == 1 {
@@ -103,10 +129,25 @@ extension CountryPickerViewController {
         searchController?.definesPresentationContext = true
         searchController?.searchBar.delegate = self
         searchController?.delegate = self
-        searchController?.searchBar.placeholder = "Buscar un país"
+        let preferredTitle = dataSource.preferredSearchBarTitle
+        searchController?.searchBar.placeholder = preferredTitle
         
         //searchController?.searchBar.setImage(UIImage(named: "search"), for: UISearchBar.Icon.search, state: .normal)
-        searchController?.searchBar.barTintColor = .white
+        if #available(iOS 12.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                self.view.backgroundColor = UIColor.black
+                searchController?.searchBar.barTintColor = .black
+                tableView.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                tableView.tableHeaderView?.backgroundColor = .black
+                tableView.sectionIndexColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            } else {
+                self.view.backgroundColor = UIColor.white
+                searchController?.searchBar.barTintColor = .white
+                tableView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                tableView.tableHeaderView?.backgroundColor = .white
+                tableView.sectionIndexColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+            }
+        }
         
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
@@ -206,6 +247,15 @@ extension CountryPickerViewController {
             header.textLabel?.font = dataSource.sectionTitleLabelFont
             if let color = dataSource.sectionTitleLabelColor {
                 header.textLabel?.textColor = color
+            }
+            if #available(iOS 12.0, *) {
+                if self.traitCollection.userInterfaceStyle == .dark {
+                    header.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                    header.backgroundView?.backgroundColor = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1)
+                } else {
+                    header.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                    header.backgroundView?.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+                }
             }
         }
     }
@@ -314,6 +364,10 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
     
     var preferredCountriesSectionTitle: String? {
         return view.dataSource?.sectionTitleForPreferredCountries(in: view)
+    }
+    
+    var preferredSearchBarTitle: String? {
+        return view.dataSource?.titleForSearchBar(in: view)
     }
     
     var showOnlyPreferredSection: Bool {
